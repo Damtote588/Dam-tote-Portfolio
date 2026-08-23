@@ -34,16 +34,17 @@
       opacity: 0; pointer-events: none; visibility: hidden; transition: opacity .28s ease, visibility .28s ease;
     }
     #portfolio-lightbox.is-open { opacity: 1; pointer-events: auto; visibility: visible; }
-    #portfolio-lightbox .lightbox-stage { position: relative; display: grid; place-items: center; width: min(94vw,1180px); height: min(88vh,900px); }
-    #portfolio-lightbox .lightbox-image { max-width: 100%; max-height: 100%; object-fit: contain; border: 1px solid rgba(241,238,232,.22); box-shadow: 0 30px 90px rgba(0,0,0,.46); cursor: zoom-in; user-select: none; }
-    #portfolio-lightbox .lightbox-image.is-zoomed { max-width: none; max-height: none; width: min(150vw,1800px); height: min(150vh,1400px); cursor: zoom-out; }
-    #portfolio-lightbox .lightbox-toolbar { position: absolute; inset: auto 0 -3.3rem; display: flex; align-items: center; justify-content: center; gap: .55rem; color: #f1eee8; font: 500 .68rem/1.2 "DM Mono",monospace; letter-spacing: .12em; text-transform: uppercase; }
+    #portfolio-lightbox .lightbox-stage { position: relative; display: grid; place-items: center; width: min(94vw,1180px); height: min(88vh,900px); overflow: hidden; }
+    #portfolio-lightbox .lightbox-viewport { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; overflow: auto; padding: 1rem; touch-action: pan-x pan-y; overscroll-behavior: contain; scrollbar-gutter: stable; }
+    #portfolio-lightbox .lightbox-image { position: relative; z-index: 1; max-width: 100%; max-height: 100%; object-fit: contain; border: 1px solid rgba(241,238,232,.22); box-shadow: 0 30px 90px rgba(0,0,0,.46); cursor: zoom-in; user-select: none; }
+    #portfolio-lightbox .lightbox-image.is-zoomed { max-width: none; max-height: none; width: 1600px; height: auto; cursor: grab; }
+    #portfolio-lightbox .lightbox-toolbar { position: absolute; z-index: 4; inset: auto 1rem 1rem; display: flex; align-items: center; justify-content: center; gap: .55rem; color: #f1eee8; font: 500 .68rem/1.2 "DM Mono",monospace; letter-spacing: .12em; text-transform: uppercase; pointer-events: auto; }
     #portfolio-lightbox button { display: inline-grid; place-items: center; min-width: 2.45rem; min-height: 2.45rem; padding: .5rem .72rem; border: 1px solid rgba(241,238,232,.36); color: #f1eee8; background: rgba(23,22,20,.72); cursor: pointer; }
     #portfolio-lightbox button:hover, #portfolio-lightbox button:focus-visible { border-color: #e4492e; background: #e4492e; outline: none; }
-    #portfolio-lightbox .lightbox-caption { position: absolute; inset: 1rem auto auto 1rem; max-width: min(70vw,38rem); color: #f1eee8; font: 500 .68rem/1.4 "DM Mono",monospace; letter-spacing: .12em; text-transform: uppercase; }
-    #portfolio-lightbox .lightbox-close { position: absolute; top: 1rem; right: 1rem; z-index: 2; }
+    #portfolio-lightbox .lightbox-caption { position: absolute; z-index: 4; inset: 1rem auto auto 1rem; max-width: min(70vw,38rem); color: #f1eee8; font: 500 .68rem/1.4 "DM Mono",monospace; letter-spacing: .12em; text-transform: uppercase; pointer-events: none; }
+    #portfolio-lightbox .lightbox-close { position: absolute; top: 1rem; right: 1rem; z-index: 5; }
     body.lightbox-open { overflow: hidden; }
-    @media (max-width:640px) { #portfolio-lightbox { padding: .8rem; } #portfolio-lightbox .lightbox-stage { width: 100vw; height: 78vh; } #portfolio-lightbox .lightbox-toolbar { bottom: -3.5rem; } #portfolio-lightbox .lightbox-caption { top: .7rem; left: .7rem; right: 4rem; } }
+    @media (max-width:640px) { #portfolio-lightbox { padding: .8rem; } #portfolio-lightbox .lightbox-stage { width: 100vw; height: 78vh; } #portfolio-lightbox .lightbox-toolbar { inset: auto .7rem .7rem; flex-wrap: wrap; } #portfolio-lightbox .lightbox-caption { top: .7rem; left: .7rem; right: 4rem; } }
   `;
   document.head.appendChild(css);
 
@@ -60,8 +61,10 @@
     overlay.setAttribute('aria-label', 'Visionneuse d’images');
     overlay.innerHTML = `
       <div class="lightbox-stage">
+        <div class="lightbox-viewport">
+          <img class="lightbox-image" alt="" />
+        </div>
         <p class="lightbox-caption"></p>
-        <img class="lightbox-image" alt="" />
         <button class="lightbox-close" type="button" aria-label="Fermer la visionneuse">×</button>
         <div class="lightbox-toolbar">
           <button class="lightbox-prev" type="button" aria-label="Image précédente">←</button>
