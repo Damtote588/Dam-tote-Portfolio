@@ -102,6 +102,16 @@
     campaigns.append(chapter, grain, divers, intro, sgmt);
   };
 
+  const removeStrayUndefined = (root) => {
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    let node;
+    while ((node = walker.nextNode())) {
+      if (node.nodeValue.trim() === 'undefined') nodes.push(node);
+    }
+    nodes.forEach((textNode) => textNode.remove());
+  };
+
   const applyOrder = () => {
     const main = document.querySelector('main');
     if (!main || main.dataset.sourceOrderApplied === 'true') return Boolean(main);
@@ -130,7 +140,9 @@
     const hiddenFresha = main.querySelector('#fresha');
     // Hidden Fresha metadata remains available, while the visible sequence follows the supplied PDF.
     main.append(accueil, page02, profil, identites, dossiers, autres, print, campagnes, retouche, creatifs, page23, contact);
-    if (hiddenFresha && hiddenFresha.parentElement !== main) main.append(hiddenFresha);
+    // Keep the legacy hidden Fresha section available, but place it after the visible source-order sequence.
+    if (hiddenFresha) main.append(hiddenFresha);
+    removeStrayUndefined(main);
     main.dataset.sourceOrderApplied = 'true';
     document.documentElement.dataset.portfolioSourceOrder = '01-24';
     return true;
