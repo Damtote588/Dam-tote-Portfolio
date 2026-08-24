@@ -76,28 +76,6 @@
       pointer-events: none;
       background: linear-gradient(180deg, rgba(0,0,0,.32), transparent 26%, transparent 72%, rgba(0,0,0,.44));
     }
-    .portfolio-fullscreen-art__meta {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: clamp(1.25rem, 4vw, 4rem);
-      color: #f7f3e9;
-      pointer-events: none;
-      font: 600 .68rem/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-    }
-    .portfolio-fullscreen-art__top,
-    .portfolio-fullscreen-art__bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 1rem;
-      text-shadow: 0 2px 18px rgba(0,0,0,.45);
-    }
-    .portfolio-fullscreen-art__bottom { align-items: end; }
     .portfolio-art-copy {
       position: absolute;
       z-index: 2;
@@ -157,16 +135,16 @@
     }
     .portfolio-art-copy--island .portfolio-art-copy__body {
       position: absolute;
-      top: 36%;
+      top: 58%;
       right: auto;
-      bottom: 7%;
+      bottom: 5%;
       left: 8%;
-      width: 50%;
+      width: 84%;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
       color: #f7f3e9;
-      font: 500 clamp(.54rem, 1vw, .82rem)/1.22 ui-sans-serif, system-ui, sans-serif;
+      font: 500 clamp(.5rem, 1vw, .78rem)/1.12 ui-sans-serif, system-ui, sans-serif;
       text-shadow: 0 1px 10px rgba(0,0,0,.2);
     }
     .portfolio-art-copy--island .portfolio-art-copy__body p { margin: 0 0 .85rem; }
@@ -181,13 +159,10 @@
     @media (max-width: 640px) {
       .portfolio-source-page { padding: 3rem 1rem; }
       .portfolio-source-page__label { font-size: 0.58rem; }
-      .portfolio-fullscreen-art__meta { padding: 1rem; font-size: .56rem; }
-      .portfolio-fullscreen-art__top,
-      .portfolio-fullscreen-art__bottom { flex-direction: column; gap: .45rem; }
       .portfolio-art-copy--moonrise { left: .75rem; font-size: 3.6rem; }
       .portfolio-art-copy--moonrise small { left: 4.6rem; bottom: 1rem; font-size: .5rem; }
       .portfolio-art-copy--island .portfolio-art-copy__heading { top: 10%; left: 8%; max-width: 68vw; font-size: 3.4rem; }
-      .portfolio-art-copy--island .portfolio-art-copy__body { top: 35%; right: auto; bottom: 6%; left: 8%; width: 50%; font-size: clamp(.46rem, 2.1vw, .62rem); line-height: 1.14; }
+      .portfolio-art-copy--island .portfolio-art-copy__body { top: 58%; right: auto; bottom: 4%; left: 8%; width: 84%; font-size: clamp(.4rem, 1.8vw, .58rem); line-height: 1.06; }
       .portfolio-art-copy--island .portfolio-art-copy__body p { margin-bottom: .55rem; }
       .portfolio-art-copy--island .portfolio-art-copy__cta { margin-top: .8rem; font-size: .65rem; }
     }
@@ -226,10 +201,6 @@
         <img class="portfolio-fullscreen-art__image" src="${BASE}${assetName}" alt="Page ${padded} du portfolio — ${title}" loading="lazy" decoding="async">
         <div class="portfolio-fullscreen-art__shade" aria-hidden="true"></div>
         ${customCopy}
-      </div>
-      <div class="portfolio-fullscreen-art__meta">
-        <div class="portfolio-fullscreen-art__top"><span>Page ${padded}</span><span>${title}</span></div>
-        <div class="portfolio-fullscreen-art__bottom"><span>DSL / DOSSIER RELIÉ</span><span>${subtitle}</span></div>
       </div>
     `;
     return section;
