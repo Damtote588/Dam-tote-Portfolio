@@ -76,17 +76,17 @@
   const reorderPrintSubblocks = (print) => {
     const children = Array.from(print.children);
     if (children.length < 5) return;
-    const intro = childWithImage(print, 'print-design-1.jpg');
-    const divers = childWithImage(print, 'fresha-compo-1.jpg');
-    const applications = childWithImage(print, 'beaufort-case-study-1.jpg');
     const chapter = children.find((child) => child.classList.contains('chapter-number'));
     const grain = children.find((child) => child.classList.contains('paper-grain'));
-    const fresha = children.find((child) => child.querySelector('img[src*="fresha-compo-1.jpg"]'));
-    const beaufort = children.find((child) => child.querySelector('img[src*="beaufort-case-study-1.jpg"]'));
-    const appBlock = children.find((child) => child.querySelector('img[src*="afcet-case-study-1.jpg"]'));
-    if (!chapter || !intro || !fresha || !beaufort || !appBlock) return;
-    // Keep the existing Print chapter, then the source order 08 → Fresha → Beaufort → applications.
-    print.append(chapter, grain, intro, fresha, beaufort, appBlock);
+    const intro = childWithImage(print, 'print-design-1.jpg');
+    const fresha = childWithImage(print, 'fresha-compo-1.jpg');
+    const archive = childWithImage(print, 'fresha-ananas-upload.webp');
+    const beaufort = childWithImage(print, 'beaufort-case-study-1.jpg');
+    const appBlock = childWithImage(print, 'afcet-case-study-1.jpg');
+    const ordered = [chapter, grain, intro, fresha, archive, beaufort, appBlock].filter(Boolean);
+    if (!chapter || !intro || !fresha || !archive || !beaufort || !appBlock) return;
+    // Preserve every existing Print child and enforce the source order 08 → 09 → archive → 10 → 11–12.
+    print.append(...ordered);
   };
 
   const reorderCampaignSubblocks = (campaigns) => {
