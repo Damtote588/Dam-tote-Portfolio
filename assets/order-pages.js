@@ -46,8 +46,21 @@
       padding: 0;
       background: #10202a;
     }
-    .portfolio-fullscreen-art--illustrationile { background: #5c95a8; }
+    .portfolio-fullscreen-art--illustrationile { background: #4f97b0; }
     .portfolio-fullscreen-art--moonrise { background: #07151c; }
+    .portfolio-fullscreen-art__canvas {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: min(100%, 91.33svh);
+      aspect-ratio: 2117 / 2318;
+      overflow: hidden;
+      transform: translate(-50%, -50%);
+    }
+    .portfolio-fullscreen-art--moonrise .portfolio-fullscreen-art__canvas {
+      width: min(100%, 95.48svh);
+      aspect-ratio: 1987 / 2081;
+    }
     .portfolio-fullscreen-art__image {
       position: absolute;
       inset: 0;
@@ -144,11 +157,16 @@
     }
     .portfolio-art-copy--island .portfolio-art-copy__body {
       position: absolute;
-      left: 12%;
-      bottom: 12%;
-      width: min(58vw, 46rem);
+      top: 36%;
+      right: auto;
+      bottom: 7%;
+      left: 8%;
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
       color: #f7f3e9;
-      font: 500 clamp(.72rem, 1.1vw, 1rem)/1.38 ui-sans-serif, system-ui, sans-serif;
+      font: 500 clamp(.54rem, 1vw, .82rem)/1.22 ui-sans-serif, system-ui, sans-serif;
       text-shadow: 0 1px 10px rgba(0,0,0,.2);
     }
     .portfolio-art-copy--island .portfolio-art-copy__body p { margin: 0 0 .85rem; }
@@ -169,7 +187,7 @@
       .portfolio-art-copy--moonrise { left: .75rem; font-size: 3.6rem; }
       .portfolio-art-copy--moonrise small { left: 4.6rem; bottom: 1rem; font-size: .5rem; }
       .portfolio-art-copy--island .portfolio-art-copy__heading { top: 10%; left: 8%; max-width: 68vw; font-size: 3.4rem; }
-      .portfolio-art-copy--island .portfolio-art-copy__body { left: 8%; bottom: 7%; width: 84vw; font-size: .67rem; line-height: 1.28; }
+      .portfolio-art-copy--island .portfolio-art-copy__body { top: 35%; right: auto; bottom: 6%; left: 8%; width: 50%; font-size: clamp(.46rem, 2.1vw, .62rem); line-height: 1.14; }
       .portfolio-art-copy--island .portfolio-art-copy__body p { margin-bottom: .55rem; }
       .portfolio-art-copy--island .portfolio-art-copy__cta { margin-top: .8rem; font-size: .65rem; }
     }
@@ -204,9 +222,11 @@
           </div>
         </div>`;
     section.innerHTML = `
-      <img class="portfolio-fullscreen-art__image" src="${BASE}${assetName}" alt="Page ${padded} du portfolio — ${title}" loading="lazy" decoding="async">
-      <div class="portfolio-fullscreen-art__shade" aria-hidden="true"></div>
-      ${customCopy}
+      <div class="portfolio-fullscreen-art__canvas">
+        <img class="portfolio-fullscreen-art__image" src="${BASE}${assetName}" alt="Page ${padded} du portfolio — ${title}" loading="lazy" decoding="async">
+        <div class="portfolio-fullscreen-art__shade" aria-hidden="true"></div>
+        ${customCopy}
+      </div>
       <div class="portfolio-fullscreen-art__meta">
         <div class="portfolio-fullscreen-art__top"><span>Page ${padded}</span><span>${title}</span></div>
         <div class="portfolio-fullscreen-art__bottom"><span>DSL / DOSSIER RELIÉ</span><span>${subtitle}</span></div>
@@ -293,13 +313,9 @@
     if (!accueil || !profil || !identites || !print || !campagnes || !retouche || !creatifs || !dossiers || !autres || !contact) return false;
 
     ensureStyles();
-    let page02 = main.querySelector('#portfolio-page-02');
+    const page02 = main.querySelector('#portfolio-page-02');
+    if (page02) page02.remove();
     let page23 = main.querySelector('#portfolio-page-23');
-    if (!page02 || page02.dataset.artKind !== 'moonrise') {
-      const replacement = makeFullscreenPage(2, 'Moonrise', 'moonrise-full.png', 'moonrise', 'Illustration numérique', 'moonrise');
-      if (page02) page02.replaceWith(replacement);
-      page02 = replacement;
-    }
     if (!page23 || page23.dataset.artKind !== 'island-conclusion') {
       const replacement = makeFullscreenPage(23, 'Illustrationile', 'illustrationile-full.png', 'illustrationile', 'Conclusion', 'island-conclusion');
       if (page23) page23.replaceWith(replacement);
@@ -311,7 +327,7 @@
 
     const hiddenFresha = main.querySelector('#fresha');
     // Hidden Fresha metadata remains available, while the visible sequence follows the supplied PDF.
-    main.append(accueil, page02, profil, identites, dossiers, autres, print, campagnes, retouche, creatifs, page23, contact);
+    main.append(accueil, profil, identites, dossiers, autres, print, campagnes, retouche, creatifs, page23, contact);
     // Keep the legacy hidden Fresha section available, but place it after the visible source-order sequence.
     if (hiddenFresha) main.append(hiddenFresha);
     removeStrayUndefined(main);
