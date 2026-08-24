@@ -306,11 +306,6 @@
       page23 = replacement;
     }
 
-    const legacyIce = Array.from(creatifs.querySelectorAll('article')).find((article) =>
-      Array.from(article.querySelectorAll('img')).some((img) => img.src.includes('ice-premium-concept-1.jpg'))
-    );
-    if (legacyIce) legacyIce.remove();
-
     reorderPrintSubblocks(print);
     reorderCampaignSubblocks(campagnes);
 
